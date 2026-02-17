@@ -1,8 +1,6 @@
 services:
   db:
     image: postgres:16
-    container_name: saas_db
-    restart: unless-stopped
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
@@ -11,6 +9,8 @@ services:
       - "5432:5432"
     volumes:
       - saas_pgdata:/var/lib/postgresql/data
+      - ../infra/db/init.sql:/docker-entrypoint-initdb.d/init.sql:ro
+
 
   dev:
     image: mcr.microsoft.com/devcontainers/base:ubuntu
