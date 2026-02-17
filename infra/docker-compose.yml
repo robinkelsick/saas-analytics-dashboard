@@ -1,0 +1,25 @@
+services:
+  db:
+    image: postgres:16
+    container_name: saas_db
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: saas
+    ports:
+      - "5432:5432"
+    volumes:
+      - saas_pgdata:/var/lib/postgresql/data
+
+  dev:
+    image: mcr.microsoft.com/devcontainers/base:ubuntu
+    container_name: saas_dev
+    depends_on:
+      - db
+    volumes:
+      - ..:/workspaces:cached
+    command: sleep infinity
+
+volumes:
+  saas_pgdata:
